@@ -1,0 +1,31 @@
+"","pro_KG_present","pro_KG_present_long","pro_KG_present_short","area_km2","percent_area"
+"1",1,"Tropical, rainforest","Af",6795940.23069421,5.0356046413604
+"2",2,"Tropical, monsoon","Am",4859999.43014175,3.60112579814886
+"3",3,"Tropical, savannah","Aw",17468362.3752407,12.9435756742583
+"4",4,"Arid, desert, hot","BWh",22188163.3688412,16.4408182901259
+"5",5,"Arid, desert, cold","BWk",7007484.34818832,5.19235300931904
+"6",6,"Arid, steppe, hot","BSh",8486371.99638785,6.288168047787
+"7",7,"Arid, steppe, cold","BSk",8231041.53539709,6.09897520458944
+"8",8,"Temperate, dry summer, hot summer","Csa",1394776.54822081,1.03349102868197
+"9",9,"Temperate, dry summer, warm summer","Csb",947973.597310573,0.70242234105355
+"10",10,"Temperate, dry summer, cold summer","Csc",5247.47760905729,0.00388823646274246
+"11",11,"Temperate, dry winter, hot summer","Cwa",4072799.93564532,3.0178326417054
+"12",12,"Temperate, dry winter, warm summer","Cwb",1586784.91496519,1.17576394308917
+"13",13,"Temperate, dry winter, cold summer","Cwc",7530.45662797513,0.00557986107295725
+"14",14,"Temperate, no dry season, hot summer","Cfa",5917221.17342524,4.38449800813101
+"15",15,"Temperate, no dry season, warm summer","Cfb",3008741.61703544,2.22939471759453
+"16",16,"Temperate, no dry season, cold summer","Cfc",95958.3702457853,0.0711025109380186
+"17",17,"Cold, dry summer, hot summer","Dsa",246275.842668462,0.182483620264207
+"18",18,"Cold, dry summer, warm summer","Dsb",637325.342442227,0.472240535307187
+"19",19,"Cold, dry summer, cold summer","Dsc",1587100.25396788,1.17599760060994
+"20",20,"Cold, dry summer, very cold winter","Dsd",12748.3190500768,0.00944615349737297
+"21",21,"Cold, dry winter, hot summer","Dwa",1070236.55086299,0.793015824144274
+"22",22,"Cold, dry winter, warm summer","Dwb",1715281.72451793,1.27097654187886
+"23",23,"Cold, dry winter, cold summer","Dwc",2754121.09851984,2.04072792222871
+"24",24,"Cold, dry winter, very cold winter","Dwd",247743.214199395,0.183570902176781
+"25",25,"Cold, no dry season, hot summer","Dfa",1781277.71487806,1.31987775408606
+"26",26,"Cold, no dry season, warm summer","Dfb",9316588.95622058,6.90333596191723
+"27",27,"Cold, no dry season, cold summer","Dfc",14916843.0663588,11.0529701011994
+"28",28,"Cold, no dry season, very cold winter","Dfd",121770.894763222,0.0902288810726715
+"29",29,"Polar, tundra","ET",6719128.19321617,4.97868903596855
+"30",30,"Polar, frost","EF",1756941.39550784,1.30184521133049
