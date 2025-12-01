@@ -76,22 +76,6 @@ all_data %>%
             n_sites = n_distinct(entry_name, site_name),
             n_profile = n_distinct(entry_name, site_name, pro_name))
 
-# Layer data
-all_data %>% 
-  filter(DataType == "layer") %>% 
-  drop_na(lyr_14c) %>% 
-  count(pro_KG_present_long, pro_KG_present_short)
-
-all_data %>% 
-  filter(DataType == "layer") %>% 
-  drop_na(lyr_14c) %>% 
-  count(pro_usda_soil_order)
-
-all_data %>% 
-  filter(DataType == "layer") %>% 
-  drop_na(lyr_14c) %>% 
-  count(pro_land_cover)
-
 # incubation data
 all_data %>% 
   filter(DataType == "incubation") %>%
@@ -110,7 +94,8 @@ all_data %>%
   filter(inc_type == "root-picked soil") %>% 
   count(pro_usda_soil_order) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "incubation") %>%
@@ -118,7 +103,8 @@ all_data %>%
   filter(inc_type == "root-picked soil") %>% 
   count(pro_land_cover) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "incubation") %>%
@@ -126,7 +112,8 @@ all_data %>%
   filter(inc_type == "root-picked soil") %>% 
   count(pro_KG_present_long, pro_KG_present_short) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 # interstitial data
 all_data %>% 
@@ -150,7 +137,8 @@ all_data %>%
   filter(ist_analyte == "CO2") %>% 
   count(pro_usda_soil_order) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "interstitial") %>%
@@ -158,7 +146,8 @@ all_data %>%
   filter(ist_analyte == "CO2") %>% 
   count(pro_land_cover) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "interstitial") %>%
@@ -166,9 +155,15 @@ all_data %>%
   filter(ist_analyte == "CO2") %>% 
   count(pro_KG_present_long, pro_KG_present_short) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 # Flux data
+all_data %>% 
+  filter(DataType == "flux") %>%
+  drop_na(flx_14c) %>%
+  count(flx_analyte)
+
 all_data %>% 
   filter(DataType == "flux") %>%
   drop_na(flx_14c) %>%
@@ -198,7 +193,8 @@ all_data %>%
          flx_pathway == "soil emission") %>% 
   count(pro_usda_soil_order) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "flux") %>% 
@@ -208,7 +204,8 @@ all_data %>%
          flx_pathway == "soil emission") %>% 
   count(pro_land_cover) %>% 
   mutate(n_total = sum(n),
-         perc = (n * 100)/n_total)
+         perc = (n * 100)/n_total) %>% 
+  arrange(-perc)
 
 all_data %>% 
   filter(DataType == "flux") %>% 
@@ -300,61 +297,4 @@ ggplot() +
   facet_wrap("DataType", nrow = 1, labeller = labeller(DataType = facet_labels))
 
 ggsave("./output/Figure4.png", width = 8, height = 5, dpi = 600)
-
-
-
-
-# Fraction data
-# frc_data %>% 
-#   summarise(n_frc = nrow(.),
-#             n_entries = n_distinct(entry_name),
-#             n_sites = n_distinct(entry_name, site_name),
-#             n_profile = n_distinct(entry_name, site_name, pro_name))
-# 
-# frc_data %>% 
-#   # Most samples are density fractionation with SPT 
-#   count(frc_scheme, frc_property)
-# 
-# frc_data %>% 
-#   filter(frc_scheme == "density" | frc_scheme == "particle size") %>% 
-#   mutate(fraction = case_when(
-#     frc_property == "heavy" ~ "mineral",
-#     frc_property == "free light" ~ "particulate",
-#     frc_property == "coarse" ~ "particulate",
-#     frc_property == "fine" ~ "mineral",
-#     frc_property == "sand" ~ "particulate",
-#     frc_property == "clay" ~ "mineral",
-#     frc_property == "silt+sand" ~ "particulate",
-#     frc_property == "silt+clay" ~ "mineral",
-#     frc_property == "silt" ~ "mineral"
-#   )) %>% 
-#   drop_na() %>% 
-#   mutate(depth_cat = case_when(
-#     #inconsistency - not all litter samples are inc_type == litter
-#     lyr_top < 0 ~ "organic",
-#     # inc_type == "litter" ~ "organic",
-#     ((lyr_bot - lyr_top)/2 + lyr_top) <= 20 ~ "0-20 cm",
-#     ((lyr_bot - lyr_top)/2 + lyr_top) <= 50 ~ "20-50 cm",
-#     ((lyr_bot - lyr_top)/2 + lyr_top) > 50 ~ ">50 cm",
-#   )) %>% 
-#   mutate(depth_cat = factor(depth_cat, levels = c("organic", "0-20 cm",
-#                                                   "20-50 cm", ">50 cm"),
-#                             ordered = TRUE),
-#          fraction = factor(fraction, levels = c("particulate", "mineral"),
-#                            ordered = TRUE)) %>% 
-#   ggplot(aes(y = frc_dd14c, fill = depth_cat)) +
-#   facet_wrap(~fraction) +
-#   geom_histogram(bins = 50) +
-#   theme_bw(base_size = 16) +
-#   theme(axis.text = element_text(color = "black"),
-#         legend.position = "top") +
-#   scale_x_continuous("Number of samples", expand = c(0,0), limits = c(0,250)) +
-#   scale_y_continuous(expression(paste(Delta,Delta^14, "C [‰]")), expand = c(0,0),
-#                      limits = c(-1500,650)) +
-#   scale_fill_manual("Layer depth", values = c("#238443", "#cc4c02", "#fe9929", "#fed98e"))
-
-
-
-
-
 
