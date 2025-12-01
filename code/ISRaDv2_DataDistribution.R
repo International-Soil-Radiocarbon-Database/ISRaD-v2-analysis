@@ -13,6 +13,46 @@ library(ggpubr)
 # force_download = TRUE to download database
 izz <- ISRaD::ISRaD.getdata("./data/", extra = TRUE, force_download = F)
 
+# Overview about entire database
+izz$metadata %>% 
+  summarise(n_entries = n_distinct(entry_name))
+
+izz$site %>% 
+  summarise(n_sites = n_distinct(entry_name, site_name))
+
+izz$profile %>% 
+  summarise(n_profile = n_distinct(entry_name, site_name, pro_name))
+
+izz$flux %>% 
+  summarise(n_fluxes = nrow(.),
+            n_entries = n_distinct(entry_name),
+            n_sites = n_distinct(entry_name, site_name),
+            n_profile = n_distinct(entry_name, site_name, pro_name))
+
+izz$layer %>% 
+  summarise(n_lyr = nrow(.),
+            n_entries = n_distinct(entry_name),
+            n_sites = n_distinct(entry_name, site_name),
+            n_profile = n_distinct(entry_name, site_name, pro_name))
+
+izz$interstitial %>% 
+  summarise(n_ist = nrow(.),
+            n_entries = n_distinct(entry_name),
+            n_sites = n_distinct(entry_name, site_name),
+            n_profile = n_distinct(entry_name, site_name, pro_name))
+
+izz$fraction %>% 
+  summarise(n_frc = nrow(.),
+            n_entries = n_distinct(entry_name),
+            n_sites = n_distinct(entry_name, site_name),
+            n_profile = n_distinct(entry_name, site_name, pro_name))
+
+izz$incubation %>% 
+  summarise(n_inc = nrow(.),
+            n_entries = n_distinct(entry_name),
+            n_sites = n_distinct(entry_name, site_name),
+            n_profile = n_distinct(entry_name, site_name, pro_name))
+
 #### Data distribution of all data types: Figure 1 ####
 
 ### Extract and merge all data types
