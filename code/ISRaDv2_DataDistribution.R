@@ -209,7 +209,7 @@ ps <- plot_func(pro_usda_soil_order) +
 
 ggarrange(pc, pl, ps, ncol = 1, common.legend = TRUE, legend = "right")
 
-ggsave("./output/Figure1.png", width = 12, height = 8, dpi = 600)
+ggsave("./output/Figure2.png", width = 12, height = 8, dpi = 600)
 
 
 #######################################################
@@ -440,7 +440,7 @@ final_plot <- ggarrange(
 
 final_plot
 
-ggsave("./output/Figure2.png", width = 14, height = 10, dpi = 600)
+ggsave("./output/Figure3.png", width = 14, height = 10, dpi = 600)
 
 ### Figures with soil type: S3
 lyr_data_14C$pro_usda_soil_order <- droplevels(lyr_data_14C$pro_usda_soil_order)
