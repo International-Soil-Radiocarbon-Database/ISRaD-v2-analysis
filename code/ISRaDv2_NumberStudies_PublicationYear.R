@@ -8,7 +8,7 @@ library(ISRaD)
 library(tidyverse)
 
 #### Get most recent ISRaD data ####
-izz <- ISRaD::ISRaD.getdata("./Data/", extra = TRUE, force_download = F)
+izz <- ISRaD::ISRaD.getdata("./data/", extra = TRUE, force_download = F)
 
 # Prepare data
 lyr_data <- ISRaD.flatten(izz, "layer") %>% 
@@ -155,7 +155,7 @@ ggsave("./output/FigureS1.png", width = 10, height = 6, dpi = 600)
 ### Number of published 14C studies
 
 ## Get number of 14C studies based on web of science (accessed: Aug, 5 2025)
-num_14C <- read.delim("./Data/WoF_Soil_Radiocarbon_Search_05082025.txt")
+num_14C <- read.delim("./data/WoF_Soil_Radiocarbon_Search_05082025.txt")
 
 # Plot Data
 num_14C %>% 
