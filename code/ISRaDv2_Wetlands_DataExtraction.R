@@ -156,6 +156,8 @@ v1_filtered <- all_data_v1 %>%
 wet_data_v1_v2 <- v1_filtered %>%
   full_join(wet_data) %>% 
   dplyr::select(DataType, Version, pro_long, pro_lat, entry_name)
+write.csv(wet_data_v1_v2, "./data/ISRaD_v1_v2_WetlandSites.csv", 
+          row.names = FALSE)
 
 # Quick check of sampling locations
 library(rnaturalearth)
@@ -175,7 +177,7 @@ wet_data_v1_v2 %>%
   ggplot() +
   geom_sf(data = world, fill = "gray90", color = "gray90", size = 0.2) +
   geom_sf(data = points_sf, aes(color = DataType), 
-          size = 1.5, alpha = 0.7, position = "jitter") +
+          size = 1.5, alpha = 0.7) +
   facet_wrap(~Version) +
   coord_sf(crs = "+proj=robin", expand = FALSE) +
   theme_minimal() +
