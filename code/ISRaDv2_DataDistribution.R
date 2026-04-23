@@ -295,8 +295,8 @@ p1 <- lyr_data_14C %>%
   geom_hline(aes(yintercept = 0), linetype = "dashed")  +
   # Add ALL possible zone labels along x axis at y=50
   geom_text(data = label_df,
-            aes(x = pro_KG_present_short, y = y, label = pro_KG_present_short),
-            inherit.aes = FALSE) +
+            aes(x = pro_KG_present_short, y = 55, label = pro_KG_present_short),
+            inherit.aes = FALSE, angle = 45, size = 6) +
   scale_y_continuous("Depth (cm)", expand = c(0,0), limits = c(-200,70)) +
   scale_x_discrete(drop = FALSE) +
   scale_fill_manual(
