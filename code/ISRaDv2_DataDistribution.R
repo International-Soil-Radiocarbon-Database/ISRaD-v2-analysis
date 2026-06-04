@@ -53,7 +53,7 @@ izz$incubation %>%
             n_sites = n_distinct(entry_name, site_name),
             n_profile = n_distinct(entry_name, site_name, pro_name))
 
-#### Data distribution of all data types: Figure 1 ####
+#### Data distribution of all data types: Figure 2 ####
 
 ### Extract and merge all data types
 ## Layer data ##
@@ -214,7 +214,7 @@ ggsave("./output/Figure2.png", width = 12, height = 8, dpi = 600)
 
 #######################################################
 
-#### Data distribution of bulk layer data with depth: Figure 2, S3, S4 ####
+#### Data distribution of bulk layer data with depth: Figure 3, S3, S4 ####
 
 #######################################################
 
@@ -344,7 +344,6 @@ p2 <- lyr_data_14C %>%
   drop_na(pro_KG_present_short) %>%
   mutate(depth_bin = cut(-lyr_top, breaks=seq(-200,70, by = 10))) %>%
   ggplot(aes(x = depth_bin, fill = main_group)) +
-  geom_vline(aes(xintercept = 50.5), linetype = "dashed")  +
   geom_bar(position = "stack") +
   coord_flip() +
   scale_y_reverse("Count", expand = c(0,0),
