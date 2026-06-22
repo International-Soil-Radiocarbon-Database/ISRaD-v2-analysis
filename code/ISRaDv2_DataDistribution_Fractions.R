@@ -7,6 +7,7 @@ library(ISRaD)
 library(tidyverse)
 library(RColorBrewer)
 library(ggpubr)
+library(patchwork)
 
 #### Get most recent ISRaD data ####
 # force_download = TRUE to download database
@@ -120,28 +121,6 @@ frc_subset$frc_property<- ordered(frc_subset$frc_property, c("free light",
 
 table(frc_subset$frc_property)
 
-
-#colours####
-
-soc_colors <- c("#fdae61", #free light
-                "#d73027", #occluded light
-                "#4d2600", #heavy
-                "#f46d43", #macroaggregates
-                "#a63603", #microaggregates
-                "#fdae61", #sand
-                "#f46d43", #silt+sand
-                "#d73027", #silt
-                "#a63603", #silt+clay
-                "#4d2600", #clay
-               # "#fdd49e", #coarse
-                "#fdae61", #fulvic
-                "#d73027", #humic
-                "#4d2600", # humin,
-                "#fdae61", #extracted
-                "#4d2600"  #residual
-                )
-
-  
 #calculate median values
 frc_data_Stats <- frc_subset %>% 
   # group_by(frc_scheme2, frc_property) %>% 
@@ -153,7 +132,7 @@ frc_data_Stats <- frc_subset %>%
 
 key <- data.frame(frc_scheme2 = levels(frc_data_Stats$frc_scheme2), 
                   #xend manually adjusts length of horizontal lines for medians
-                  xend_manual = c(250, 10, 30, 10, 30)) 
+                  xend_manual = c(350, 12, 35, 12, 30)) 
 
 frc_data_Stats <- left_join(frc_data_Stats, key) 
 levels(frc_data_Stats$frc_scheme2)
@@ -171,6 +150,34 @@ table(frc_data_Stats$frc_property) #equivalent to number of depths for each cate
 
 #dd14c####
 
+fraction_levels <- c(
+  # Row 1 
+  "blank1", "blank2", "sand", "blank3", "blank4",
+  # Row 2
+  "blank5", "blank6", "silt+sand", "blank7", "blank8",
+  # Row 3 
+  "free light", "blank9", "silt", "fulvic acid", "blank10",
+  # Row 4 
+  "occluded light", "macroaggregate", "silt+clay", "humic acid", "extracted",
+  # Row 5 
+  "heavy", "microaggregate", "clay", "humin", "residual"
+)
+
+frc_data_Stats$frc_property <- factor(frc_data_Stats$frc_property, levels = fraction_levels)
+frc_subset$frc_property     <- factor(frc_subset$frc_property, levels = fraction_levels)
+
+soc_colors <- c(
+  "free light" = "#f3ad6a", "occluded light" = "#cb3328", "heavy" = "#512c17",
+  "macroaggregate" = "#f07147", "microaggregate" = "#9e3f15",
+  "sand" = "#fcc074", "silt+sand" = "#e7643b", "silt" = "#cf231d", "silt+clay" = "#942c11", "clay" = "#442b15",
+  "fulvic acid" = "#ffbf6b", "humic acid" = "#db2e2a", "humin" = "#432107",
+  "extracted" = "#fca656", "residual" = "#47250e",
+  # Pad everything else as empty space
+  "blank1"="transparent", "blank2"="transparent", "blank3"="transparent", "blank4"="transparent", 
+  "blank5"="transparent", "blank6"="transparent", "blank7"="transparent", "blank8"="transparent", 
+  "blank9"="transparent", "blank10"="transparent"
+)
+
 ggplot(data = frc_subset, aes(y = frc_dd14c, color = frc_property)) +
   geom_segment(data = frc_data_Stats, aes(y = median_dd14C, color = frc_property,
                                            x = -Inf, xend = xend_manual),
@@ -178,13 +185,27 @@ ggplot(data = frc_subset, aes(y = frc_dd14c, color = frc_property)) +
   geom_histogram(data = frc_subset, aes(y = frc_dd14c, fill = frc_property), bins = 50) +
   theme_bw(base_size = 16) +
   theme(axis.text = element_text(color = "black"),
-        legend.position = "top") +
+        legend.position = "top",
+        strip.text = element_text(size = 12, face = "bold"),
+        strip.background = element_rect(fill = 'transparent'),
+        panel.background = element_rect(fill = 'transparent'),
+        plot.background = element_rect(fill = 'transparent', color = NA),
+        legend.background = element_rect(fill = 'transparent', color = NA),
+        panel.spacing = unit(1.75, "lines"),
+        legend.key.spacing.x = unit(1.9, "cm"),
+        legend.justification = c(0, 0.5),
+        legend.margin = margin(t = 0, r = 0, b = 0, l = -10, unit = "pt")) +
   scale_x_continuous("Number of samples", expand = c(0,0)) +
-  scale_y_continuous(expression(paste(Delta,Delta^14, "C [‰]")), expand = c(0,0),
-                     limits = c(-900,350)) +
-  scale_fill_manual("fraction", values = soc_colors) +
-  scale_color_manual("fraction", values = soc_colors) +
-  facet_grid(depth ~ frc_scheme2, scales = "free_x" )
+  scale_y_continuous(expression(paste(Delta,Delta^14, "C [‰]")), expand = c(0,0)) +
+  scale_fill_manual("fraction", values = soc_colors, drop = FALSE,
+                    labels = function(x) ifelse(grepl("blank", x), "", x)) +
+  scale_color_manual("fraction", values = soc_colors, drop = FALSE,
+                     labels = function(x) ifelse(grepl("blank", x), "", x)) +
+  facet_grid(depth ~ frc_scheme2, scales = "free_x" ) +
+  guides(fill = guide_legend(ncol = 5, byrow = TRUE, title.position = "left",
+                             title.theme = element_text(margin = margin(r = 20, t = 50, b = 0, l = -10))),
+         color = guide_legend(ncol = 5, byrow = TRUE, title.position = "left",
+                              title.theme = element_text(margin = margin(r = 20, t = 50, b = 0, l = -10))))
 
-ggsave("./output/Figure5.jpeg", width = 12, height = 8)
+ggsave("./output/f05.pdf", width = 12, height = 8, dpi = 600)
 
